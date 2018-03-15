@@ -192,21 +192,17 @@ namespace sqlite
             sqlite3_finalize(this->_s);
         }
     private:
-        statement(sqlite3* db)
+        statement(sqlite3* db) : 
+            _s(nullptr), _db(db), _prepared(false), _valid(true), _has_row(false)
         {
-            this->_db = db;
-            this->_prepared = false;
-            this->_valid = true;
-            this->_has_row = false;
         }
-        statement(sqlite3* db, std::string sql)
+        
+        statement(sqlite3* db, std::string sql) : 
+            statement(db)
         {
-            this->_db = db;
-            this->_prepared = false;
-            this->_valid = true;
-            this->_has_row = false;
             this->set_sql(sql);
         }
+        
         sqlite3* _db;
         bool _prepared, _valid, _has_row;
         std::string _sql;
